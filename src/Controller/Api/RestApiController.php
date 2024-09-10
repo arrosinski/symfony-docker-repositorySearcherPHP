@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller\Api;
+
 use App\SearchInRepo\GithubSearchCodeInRepoStrategy;
 use App\Service\Api\SearchCodeInRepoService;
 use Symfony\Component\HttpFoundation\JsonResponse;
