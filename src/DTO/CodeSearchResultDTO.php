@@ -1,41 +1,32 @@
 <?php
-
 namespace App\DTO;
 
 class CodeSearchResultDTO
 {
-    private string $ownerName;
-    private string $repoName;
-    private string $fileName;
+public function __construct(
+public readonly string $ownerName,
+public readonly string $repoName,
+public readonly string $fileName,
+public readonly float $score
+) {}
 
-    public function __construct($ownerName, $repoName, $fileName)
-    {
-        $this->ownerName = $ownerName;
-        $this->repoName = $repoName;
-        $this->fileName = $fileName;
-    }
+public function getOwnerName(): string
+{
+return $this->ownerName;
+}
 
-    /**
-     * @return string
-     */
-    public function getOwnerName(): string
-    {
-        return $this->ownerName;
-    }
+public function getRepoName(): string
+{
+return $this->repoName;
+}
 
-    /**
-     * @return string
-     */
-    public function getRepoName(): string
-    {
-        return $this->repoName;
-    }
+public function getFileName(): string
+{
+return $this->fileName;
+}
 
-    /**
-     * @return string
-     */
-    public function getFileName(): string
-    {
-        return $this->fileName;
-    }
+public function getScore(): float
+{
+return $this->score;
+}
 }
