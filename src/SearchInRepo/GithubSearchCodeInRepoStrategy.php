@@ -6,11 +6,6 @@ use App\Collection\CodeSearchResultDTOCollection;
 use App\DTO\CodeSearchResultDTO;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class GithubSearchCodeInRepoStrategy implements SearchCodeInRepoStrategyInterface
 {
