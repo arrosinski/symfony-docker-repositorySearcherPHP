@@ -13,6 +13,11 @@ class RestApiController
     public function searchCodeInRepo(Request $request): JsonResponse
     {
         $searchInCodeReposeService = new SearchCodeInRepoService(new GithubSearchCodeInRepoStrategy());
-        return $searchInCodeReposeService->searchCodeInRepo($request->get('code'), $request->get('page'), $request->get('per_page'));
+
+        $code = htmlspecialchars($request->get('code'), ENT_QUOTES, 'UTF-8');
+        $page = htmlspecialchars($request->get('page'), ENT_QUOTES, 'UTF-8');
+        $perPage = htmlspecialchars($request->get('per_page'), ENT_QUOTES, 'UTF-8');
+
+        return $searchInCodeReposeService->searchCodeInRepo($code, $page, $perPage);
     }
 }
