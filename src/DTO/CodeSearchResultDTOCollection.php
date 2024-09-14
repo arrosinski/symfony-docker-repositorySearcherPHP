@@ -2,7 +2,6 @@
 
 namespace App\DTO;
 
-use App\DTO\CodeSearchResultDTO;
 use Countable;
 use IteratorAggregate;
 use ArrayIterator;

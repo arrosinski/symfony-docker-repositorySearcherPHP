@@ -2,7 +2,7 @@
 
 namespace App\SearchInRepo;
 
-use App\Collection\CodeSearchResultDTOCollection;
+use App\DTO\CodeSearchResultDTOCollection;
 use App\DTO\CodeSearchResultDTO;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
