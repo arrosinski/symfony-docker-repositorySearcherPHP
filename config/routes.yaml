@@ -7,3 +7,7 @@ api_v1_code_search_get:
     path: /api/v1/code/search
     controller: App\Controller\Api\RestApiController::searchCodeInRepo
     methods: GET|HEAD
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
