@@ -41,10 +41,11 @@ class GithubSearchCodeInRepoStrategyTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $response);
 
         $data = json_decode($response->getContent(), true);
-        $this->assertCount(2, $data);
-        $this->assertEquals('owner1', $data[0]['owner']);
-        $this->assertEquals('repo1', $data[0]['repository']);
-        $this->assertEquals('file1', $data[0]['file']);
-        $this->assertEquals(10.0, $data[0]['score']);
+        $this->assertArrayHasKey('items', $data); // Ensure 'items' key exists
+        $this->assertCount(2, $data['items']);
+        $this->assertEquals('owner1', $data['items'][0]['repository']['owner']['login']);
+        $this->assertEquals('repo1', $data['items'][0]['repository']['name']);
+        $this->assertEquals('file1', $data['items'][0]['name']);
+        $this->assertEquals(10.0, $data['items'][0]['score']);
     }
 }
