@@ -9,24 +9,25 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GithubSearchCodeInRepoStrategy implements SearchCodeInRepoStrategyInterface
 {
-    const GITHUB_API_URL = 'https://api.github.com/search/code?q=';
+    private const GITHUB_API_URL = 'https://api.github.com/search/code?q=';
 
-    public function __construct()
+    public function __construct(private $client = null)
     {
+        if ($this->client === null) {
+            $this->client = HttpClient::create(
+                ['headers' => [
+                    'Accept' => 'application/vnd.github.v3+json',
+                    'User-Agent' => 'Symfony',
+                    'Authorization' => 'token ' . $_ENV['GITHUB_API_TOKEN']
+                ]]
+            );
+        }
     }
 
     public function searchCodeInRepo(string $code, string $page, string $perPage, string $sortBy = 'score'): JsonResponse
     {
-        $client = HttpClient::create(
-            ['headers' => [
-                'Accept' => 'application/vnd.github.v3+json',
-                'User-Agent' => 'Symfony',
-                'Authorization' => 'token ' . $_ENV['GITHUB_API_TOKEN']
-            ]]
-        );
-
         $codeSearchResultsCollection = new CodeSearchResultDTOCollection();
-        $response = $client->request('GET', self::GITHUB_API_URL . $code . '&page=' . (int)$page . '&per_page=' . (int)$perPage);
+        $response = $this->client->request('GET', self::GITHUB_API_URL . $code . '&page=' . (int)$page . '&per_page=' . (int)$perPage);
 
         foreach ($response->toArray()['items'] as $item) {
             $codeSearchResultsCollection->add($this->createCodeSearchResultDTO($item));
@@ -45,5 +46,10 @@ class GithubSearchCodeInRepoStrategy implements SearchCodeInRepoStrategyInterfac
             $item['name'],
             $item['score']
         );
+    }
+
+    public function setHttpClient($client): void
+    {
+        $this->client = $client;
     }
 }
