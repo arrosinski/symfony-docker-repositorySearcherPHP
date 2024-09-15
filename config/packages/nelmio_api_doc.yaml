@@ -1,9 +1,32 @@
 nelmio_api_doc:
     documentation:
         info:
-            title: PHP Repository API Searcher
-            description: API to search for  repositories on GitHub
-            version: 1.0.0
-    areas: # to filter documented areas
-        path_patterns:
-            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+            title: 'PHP Repository API Searcher'
+            description: 'API to search for repositories on GitHub'
+            version: '1.0.0'
+        paths:
+            /api/v1/code/search:
+                get:
+                    operationId: 'get_api_v1_code_search_get'
+                    responses:
+                        default:
+                            description: ''
+                    parameters:
+                        - name: 'code'
+                          in: 'query'
+                          description: 'Code to search for'
+                          required: true
+                          schema:
+                              type: 'string'
+                        - name: 'page'
+                          in: 'query'
+                          description: 'Page number'
+                          required: false
+                          schema:
+                              type: 'integer'
+                        - name: 'per_page'
+                          in: 'query'
+                          description: 'Number of results per page'
+                          required: false
+                          schema:
+                              type: 'integer'
