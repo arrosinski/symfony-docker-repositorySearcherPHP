@@ -9,3 +9,7 @@ It uses symfony docker from dunglas as startup for symfony framework
 
 Doc for api you can find
 https://localhost/api/doc
+
+You need to also cp env. env.dev and add this lines 
+GITHUB_API_TOKEN=your_github_generated_token
+JWT_SECRET_KEY=your_secret_key_generated
