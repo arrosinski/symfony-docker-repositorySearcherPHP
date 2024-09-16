@@ -6,3 +6,6 @@ Main url for this RestAPI look like this
 https://localhost/api/v1/code/search?code=class&page=1&per_page=35
 
 It uses symfony docker from dunglas as startup for symfony framework
+
+Doc for api you can find
+https://localhost/api/doc
