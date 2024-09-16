@@ -1,0 +1,24 @@
+security:
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        api:
+            pattern: ^/api/v1/code/search
+            stateless: true
+            custom_authenticators:
+                - App\Security\JWTAuthenticator
+
+    password_hashers:
+        App\Entity\User:
+            algorithm: auto
+
+    access_control:
+        - { path: ^/api/v1/code/search, roles: IS_AUTHENTICATED_FULLY }
