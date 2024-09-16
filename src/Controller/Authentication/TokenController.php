@@ -23,6 +23,34 @@ class TokenController extends AbstractController
         $this->passwordHasher = $passwordHasher;
     }
 
+    /**
+     * @Route("/api/token", name="api_token", methods={"POST"})
+     *
+     * @OA\Post(
+     *     path="/api/token",
+     *     summary="Get a new API token",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="password", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Token generated successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="token", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid credentials"
+     *     )
+     * )
+     */
     public function getToken(Request $request): JsonResponse
     {
         $username = $request->request->get('username');

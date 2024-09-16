@@ -8,6 +8,7 @@ nelmio_api_doc:
             /api/v1/code/search:
                 get:
                     operationId: 'get_api_v1_code_search_get'
+                    summary: 'Search for code in a repository'
                     responses:
                         default:
                             description: ''
@@ -30,3 +31,30 @@ nelmio_api_doc:
                           required: false
                           schema:
                               type: 'integer'
+            /api/token:
+                post:
+                    operationId: 'post_api_token'
+                    summary: 'Get a new API token'
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    type: 'object'
+                                    properties:
+                                        username:
+                                            type: 'string'
+                                        password:
+                                            type: 'string'
+                    responses:
+                        '200':
+                            description: 'Token generated successfully'
+                            content:
+                                application/json:
+                                    schema:
+                                        type: 'object'
+                                        properties:
+                                            token:
+                                                type: 'string'
+                        '401':
+                            description: 'Invalid credentials'
