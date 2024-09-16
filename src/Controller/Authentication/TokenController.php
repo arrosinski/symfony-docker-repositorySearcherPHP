@@ -2,41 +2,39 @@
 
 namespace App\Controller\Authentication;
 
+use App\Entity\User;
+use App\Services\JWTTokenManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 class TokenController extends AbstractController
 {
-    private $userProvider;
-    private $passwordHasher;
-    private $jwtManager;
+    private JWTTokenManager $jwtManager;
+    private EntityManagerInterface $entityManager;
+    private UserPasswordHasherInterface $passwordHasher;
 
-    public function __construct(UserProviderInterface $userProvider, UserPasswordHasherInterface $passwordHasher, JWTTokenManagerInterface $jwtManager)
+    public function __construct(JWTTokenManager $jwtManager, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
     {
-        $this->userProvider = $userProvider;
-        $this->passwordHasher = $passwordHasher;
         $this->jwtManager = $jwtManager;
+        $this->entityManager = $entityManager;
+        $this->passwordHasher = $passwordHasher;
     }
 
-    #[Route('/api/token', name: 'api_token', methods: ['POST'])]
     public function getToken(Request $request): JsonResponse
     {
         $username = $request->request->get('username');
         $password = $request->request->get('password');
 
-        $user = $this->userProvider->loadUserByUsername($username);
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
 
         if (!$user || !$this->passwordHasher->isPasswordValid($user, $password)) {
-            throw new AuthenticationException('Invalid credentials.');
+            return new JsonResponse(['error' => 'Invalid credentials'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        $token = $this->jwtManager->create($user);
+        $token = $this->jwtManager->encode($user);
 
         return new JsonResponse(['token' => $token]);
     }
