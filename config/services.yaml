@@ -15,12 +15,23 @@ services:
     # Register the AddUserCommand as a service
     App\Command\AddUserCommand:
         tags: ['console.command']
-    
+
     App\Services\JWTTokenManager:
         arguments:
             $secretKey: '%env(JWT_SECRET_KEY)%'
-    
+
     # Register TokenController as a public service
     App\Controller\Authentication\TokenController:
         public: true
         tags: ['controller.service_arguments']
+
+    # Register RestApiController as a public service
+    App\Controller\Api\RestApiController:
+        public: true
+        tags: ['controller.service_arguments']
+
+    # Register GithubSearchCodeInRepoStrategy as a service
+    App\SearchInRepo\GithubSearchCodeInRepoStrategy:
+        arguments:
+            $client: '@http_client'
+            $githubApiToken: '%env(GITHUB_API_TOKEN)%'

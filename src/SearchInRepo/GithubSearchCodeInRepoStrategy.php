@@ -12,19 +12,15 @@ class GithubSearchCodeInRepoStrategy implements SearchCodeInRepoStrategyInterfac
 {
     private const GITHUB_API_URL = 'https://api.github.com/search/code?q=';
 
-    public function __construct(private ?HttpClientInterface $client = null)
+    public function __construct(private HttpClientInterface $client, private string $githubApiToken)
     {
-        if ($client === null) {
-            $this->client = HttpClient::create(
-                ['headers' => [
-                    'Accept' => 'application/vnd.github.v3+json',
-                    'User-Agent' => 'Symfony',
-                    'Authorization' => 'token ' . $_ENV['GITHUB_API_TOKEN']
-                ]]
-            );
-        } else {
-            $this->client = $client;
-        }
+        $this->client = HttpClient::create(
+            ['headers' => [
+                'Accept' => 'application/vnd.github.v3+json',
+                'User-Agent' => 'Symfony',
+                'Authorization' => 'token ' . $this->githubApiToken
+            ]]
+        );
     }
 
     public function setHttpClient(HttpClientInterface $client): void
