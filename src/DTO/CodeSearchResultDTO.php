@@ -4,13 +4,22 @@ namespace App\DTO;
 
 class CodeSearchResultDTO
 {
+    private readonly string $ownerName;
+    private readonly string $repoName;
+    private readonly string $fileName;
+    private readonly float $score;
+
     public function __construct(
-        public readonly string $ownerName,
-        public readonly string $repoName,
-        public readonly string $fileName,
-        public readonly float  $score
+        string $ownerName,
+        string $repoName,
+        string $fileName,
+        float $score
     )
     {
+        $this->ownerName = $ownerName;
+        $this->repoName = $repoName;
+        $this->fileName = $fileName;
+        $this->score = $score;
     }
 
     public function getOwnerName(): string
