@@ -4,6 +4,7 @@ namespace App\SearchInRepo;
 
 use App\DTO\CodeSearchResultDTOCollection;
 use App\DTO\CodeSearchResultDTO;
+use App\Exception\InvalidSearchQueryException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -30,6 +31,10 @@ class GithubSearchCodeInRepoStrategy implements SearchCodeInRepoStrategyInterfac
 
     public function searchCodeInRepo(string $code, string $page, string $perPage): JsonResponse
     {
+        if (empty($code)) {
+            throw new InvalidSearchQueryException();
+        }
+
         $response = $this->client->request('GET', self::GITHUB_API_URL . $code . '&page=' . $page . '&per_page=' . $perPage);
         $data = $response->toArray();
 
